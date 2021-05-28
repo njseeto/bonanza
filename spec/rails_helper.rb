@@ -1,11 +1,17 @@
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 
-require 'capybara/poltergeist'
 require 'factory_bot_rails'
 require 'capybara/rspec'
+require 'factory_bot'
 
+require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist # Allows us to test JS with capybara
+
+options = {js_errors: false}
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, options)
+end
 Capybara.server = :puma # Allows us to test JS with capybara
 
 require File.expand_path('../config/environment', __dir__)
